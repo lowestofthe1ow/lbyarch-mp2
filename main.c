@@ -8,7 +8,7 @@
 #define MAX_VAL 10
 
 /* x86-64 assembly implementation of dot product function */
-extern double asm_dot_product(size_t n, double a[], double b[]);
+extern double asm_dot_product(size_t n, double a[], double b[], double *sdot);
 
 /* Returns a pointer to a dynamically allocated vector with n random
    double-precision values (must be freed manually)
@@ -34,11 +34,11 @@ void print_vec(size_t n, double vec[]) {
 }
 
 int main() {    
-    size_t n;               // Input vector size
-    clock_t begin, end;     // Clock
-    double *a, *b;          // Input vectors
-    double c_res, asm_res;  // Result variables
-    char temp;              // Holds user input
+    size_t n;            // Input vector size
+    clock_t begin, end;  // Clock
+    double *a, *b;       // Input vectors
+    double sdot;         // Result variable
+    char temp;           // Holds user input
 
     /* Seed the RNG */
     srand(time(NULL));
@@ -59,19 +59,19 @@ int main() {
 
     /* Begin timing the C implementation */
     begin = clock();
-    c_res = c_dot_product(n, a, b);
+    c_dot_product(n, a, b, &sdot);
     end = clock();
 
     printf("C: %lf (Execution time: %le seconds)\n",
-        c_res, (double) (end - begin) / CLOCKS_PER_SEC);
+        sdot, (double) (end - begin) / CLOCKS_PER_SEC);
 
     /* Begin timing the x86-64 assembly implementation */
     begin = clock();
-    asm_res = asm_dot_product(n, a, b);
+    asm_dot_product(n, a, b, &sdot);
     end = clock();
     
     printf("ASM: %lf (Execution time: %le seconds)",
-        asm_res,  (double) (end - begin) / CLOCKS_PER_SEC);
+        sdot,  (double) (end - begin) / CLOCKS_PER_SEC);
     
     /* Free allocated memory */
     free(a);

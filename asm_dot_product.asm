@@ -5,7 +5,7 @@ global asm_dot_product
 
 ; Returns the dot product of two n-element vectors a and b
 asm_dot_product:
-    xorps xmm0, xmm0 ; Clears garbage in XMM0 register
+    xorps xmm3, xmm3 ; Clears garbage in XMM0 register
     
     l1: 
         movsd xmm1, [rdx]
@@ -16,8 +16,9 @@ asm_dot_product:
         
         add rdx, 8
         add r8, 8
-        add r9, 8
         
         loop l1
+    
+    movsd [r9], xmm0 ; Store to memory location
 
     ret
