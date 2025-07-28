@@ -6,13 +6,12 @@
 #include "c_dot_product.c"
 
 #define MAX_VAL 10
-#define ELEMENT_COUNT 1000000
 
 /* x86-64 assembly implementation of dot product function */
-extern double asm_dot_product(int n, double a[], double b[]);
+extern double asm_dot_product(size_t n, double a[], double b[]);
 
 /* Returns a pointer to a dynamically allocated vector with n random
-   double-precision values
+   double-precision values (must be freed manually)
  */
 double* initialize(size_t n) {
     float x;
@@ -24,21 +23,43 @@ double* initialize(size_t n) {
     return retval;
 }
 
-int main() {
+/* Prints a 1D array of doubles */
+void print_vec(size_t n, double vec[]) {
+    printf("[ ");
+
+    for (int i = 0; i < n; i++)
+        printf("%2.2lf ", vec[i]);
+
+    printf("]\n");
+}
+
+int main() {    
+    size_t n;               // Input vector size
+    clock_t begin, end;     // Clock
+    double *a, *b;          // Input vectors
+    double c_res, asm_res;  // Result variables
+    char temp;              // Holds user input
+
     /* Seed the RNG */
     srand(time(NULL));
 
-    /* Test vectors */
-    double* a = initialize(ELEMENT_COUNT);
-    double* b = initialize(ELEMENT_COUNT);
+    printf("Enter vector size: ");
+    scanf(" %zu", &n);
 
-    double c_res, asm_res;
+    a = initialize(n);
+    b = initialize(n);
 
-    clock_t begin, end;
+    printf("Print input vectors? (y/n): ");
+    scanf(" %c", &temp);
+
+    if (temp == 'y' || temp == 'Y') {
+        print_vec(n, a);
+        print_vec(n, b);
+    }
 
     /* Begin timing the C implementation */
     begin = clock();
-    c_res = c_dot_product(ELEMENT_COUNT, a, b);
+    c_res = c_dot_product(n, a, b);
     end = clock();
 
     printf("C: %lf (Execution time: %le seconds)\n",
@@ -46,12 +67,13 @@ int main() {
 
     /* Begin timing the x86-64 assembly implementation */
     begin = clock();
-    asm_res = asm_dot_product(ELEMENT_COUNT, a, b);
+    asm_res = asm_dot_product(n, a, b);
     end = clock();
     
     printf("ASM: %lf (Execution time: %le seconds)",
         asm_res,  (double) (end - begin) / CLOCKS_PER_SEC);
     
+    /* Free allocated memory */
     free(a);
     free(b);
 
