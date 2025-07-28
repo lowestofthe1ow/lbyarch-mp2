@@ -1,7 +1,7 @@
 # LBYARCH MP2: x86-C Interfacing
 
-Diane Benedict S. Panganiban
-Lorenz Bernard B. Marqueses
+- Diane Benedict S. Panganiban
+- Lorenz Bernard B. Marqueses
 
 **Input**: Scalar variable n (integer) contains the length of the vector;  Vectors $A$ and $B$ are both double-precision float. Scalar `sdot` is a double-precision float.
 
