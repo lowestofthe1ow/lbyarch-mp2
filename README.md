@@ -23,7 +23,7 @@ build
 
 ## Runtime comparison
 
-For two randomly-generated vectors of input size $n = 2^{28}$ ($n = 268,435,456$), the C implementation took approximately $1.255$ seconds, while the x86-64 implementation took approximately $0.221$ seconds. This difference is far less pronounced for smaller inputs, as `time.h`'s `clock()` function cannot measure the difference between the two execution times for $n = 5$, for instance (both end up being `0.0`).
+For two randomly-generated vectors of input size $n = 2^{28}$ ($n = 268,435,456$), the C implementation took approximately $6.903$ seconds, while the x86-64 implementation took approximately $0.412$ seconds. This difference is far less pronounced for smaller inputs, as `time.h`'s `clock()` function cannot measure the difference between the two execution times for $n = 5$, for instance (both end up being `0.0`).
 
 ## Screenshots
 
