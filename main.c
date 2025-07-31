@@ -8,7 +8,7 @@
 #define MAX_VAL 10
 
 /* x86-64 assembly implementation of dot product function */
-extern double asm_dot_product(size_t n, double a[], double b[], double *sdot);
+extern void asm_dot_product(size_t n, double a[], double b[], double *sdot);
 
 /* Returns a pointer to a dynamically allocated vector with n random
    double-precision values (must be freed manually)
